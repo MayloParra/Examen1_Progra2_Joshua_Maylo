@@ -23,8 +23,8 @@ public class CLogin {
             con = objetoconexion.EstablecerConexion();
             
             if (con != null) {
-                String consulta = "SELECT * FROM registrousuarios WHERE idUsuarios = ? AND contraseñas = ?";
-                ps = con.prepareStatement(consulta);
+                String consultaAdmin = "SELECT * FROM registrousuarios WHERE idUsuarios = ? AND contraseñas = ?";
+                ps = con.prepareStatement(consultaAdmin);
 
                 String user = Usuario.getText();
                 String contra = new String(contraseña.getPassword());
@@ -35,17 +35,29 @@ public class CLogin {
                 rs = ps.executeQuery();
 
                 if (rs.next()) {
-                    if (user.equals("Adminbus") && contra.equals("admin321")) {
-                        JOptionPane.showMessageDialog(null, "Bienvenido al sistema Admin bus");
-                        interfaz ventana = new interfaz();
-                        ventana.setVisible(true);
-                        ventana.setLocationRelativeTo(null);                        
-                    } else if (user.equals("AdminJefe") && contra.equals("admin123")) {
+                    if (user.equals("AdminJefe") && contra.equals("admin123")) {
                         JOptionPane.showMessageDialog(null, "Bienvenido al sistema Admin Jefe");
                         AdminPanel ventana = new AdminPanel();
                         ventana.setVisible(true);
                         ventana.setLocationRelativeTo(null);
+                        return;
                     }
+                }
+
+                // Si no es AdminJefe verificamos en la tabla usuarios
+                String consultaUsuarios = "SELECT * FROM usuarios WHERE login = ? AND clave = ?";
+                ps = con.prepareStatement(consultaUsuarios);
+
+                ps.setString(1, user);
+                ps.setString(2, contra);
+
+                rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Bienvenido al sistema conductor");
+                    interfaz ventana = new interfaz();
+                    ventana.setVisible(true);
+                    ventana.setLocationRelativeTo(null);
                 } else {
                     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
                 }
@@ -65,4 +77,4 @@ public class CLogin {
             }
         }
     }
-}// fin de la clase
+}
