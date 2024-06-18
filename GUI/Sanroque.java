@@ -78,7 +78,7 @@ public class Sanroque extends JPanel {
                 }
               JOptionPane.showMessageDialog(null, "El pasaje es de 500 colones"+"\n"+"Por favor pagar al chofer");
                 NuevoPanel(new interfaz().principal);
-            }
+            }//hola
         });
 
         PagoFacil.addActionListener(new ActionListener() {
