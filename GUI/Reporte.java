@@ -37,7 +37,7 @@ public Reporte (){
     detalles();
     eventos();
     //llamado de métodos
-}
+}//Constructor
 
 public void detalles(){
 Titulo.setBounds(380, 10, 600, 50);
@@ -72,4 +72,4 @@ public void eventos(){
     });//Esta acción es del botón Salir del sistema
 
 }//Método para dar funcionalidad a los botones
-}
+}//fin de la clase

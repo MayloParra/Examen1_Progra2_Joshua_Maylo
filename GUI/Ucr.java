@@ -92,5 +92,5 @@ public class Ucr extends JPanel{
                 NuevoPanel(new interfaz().principal);
             }
         });
-    }
-}//
+    }//Método para dar funcionalidad a los botones
+}//Fin de la clase

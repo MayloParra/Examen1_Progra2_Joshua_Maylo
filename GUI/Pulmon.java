@@ -37,7 +37,7 @@ public class Pulmon extends JPanel {
             eventos();
             //Llamado de métodos
 
-    }
+    }//Constructor
 
      public void detales(){
     Efectivo.setBounds(150, 300, 300, 50);
@@ -97,5 +97,5 @@ public class Pulmon extends JPanel {
                 NuevoPanel(new interfaz().principal);
             }
         });
-    }
-}
+    }//fin de eventos
+}//fin de la clase

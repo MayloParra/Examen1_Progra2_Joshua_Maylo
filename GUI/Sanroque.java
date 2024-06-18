@@ -35,7 +35,7 @@ public class Sanroque extends JPanel {
         detales();
         eventos();
         //Llamado de métodos
-    }
+    }//Constructor
 
     public void detales(){
     Efectivo.setBounds(150, 300, 300, 50);
@@ -78,7 +78,7 @@ public class Sanroque extends JPanel {
                 }
               JOptionPane.showMessageDialog(null, "El pasaje es de 500 colones"+"\n"+"Por favor pagar al chofer");
                 NuevoPanel(new interfaz().principal);
-            }//hola
+            }
         });
 
         PagoFacil.addActionListener(new ActionListener() {
@@ -95,5 +95,5 @@ public class Sanroque extends JPanel {
                 NuevoPanel(new interfaz().principal);
             }
         });
-    }
+    }//Método para dar funcionalidad a los botones
 }

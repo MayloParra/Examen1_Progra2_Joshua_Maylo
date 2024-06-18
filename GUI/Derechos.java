@@ -23,7 +23,7 @@ public class Derechos extends JFrame {
         setResizable(false);
         add(Principal);
         Detalles(); 
-    }//
+    }//Constructor
 
     public void Detalles() {
         Principal.setLayout(null);
@@ -61,11 +61,11 @@ public class Derechos extends JFrame {
                 v.setBounds(0, 0, 800, 600);
                 v.setLocationRelativeTo(null);
                 dispose();
-            }//
+            }
         });
         
         Principal.add(volver);
         volver.setBounds(600, 500, 150, 40);
         volver.setVisible(true);
-    }//
-}//
+    }//Detalles
+}//fin de la clase
