@@ -6,13 +6,13 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Conexion {
-    static Connection conectar;
+    static Connection conectar;//Variable de tipo Connection
     
-    String Usuario = "UsuarioColaborador";
-    String Contraseña = "Joshua20000..**";
-    String BD = "SistemaPagoAutobus";
-    String IP = "10.153.156.206";
-    String Puerto = "3306"; 
+    String Usuario = "UsuarioColaborador";//Usuario de la base de datos
+    String Contraseña = "Joshua20000..**";//Contraseña de la base de datos
+    String BD = "SistemaPagoAutobus";//Nombre de la base de datos
+    String IP = "10.153.156.206";//IP de la base de datos
+    String Puerto = "3306"; //Puerto de la base de datos
 
     String cadena = "jdbc:mysql://" + IP + ":" + Puerto + "/" + BD;
 
@@ -27,5 +27,5 @@ public class Conexion {
             JOptionPane.showMessageDialog(null, "No se encontró el driver de conexión: " + e.toString());
         }
         return conectar;
-    }
-}//
+    }//Fin de EstablecerConexion
+}//Fin de la clase

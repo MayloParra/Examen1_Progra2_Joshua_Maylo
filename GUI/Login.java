@@ -75,7 +75,7 @@ public class Login extends JFrame {
                 dispose();
             }
         });
-    }
+    }//fin de eventos
 
     public static void main(String[] args) {
         Login ventana = new Login();
@@ -83,5 +83,5 @@ public class Login extends JFrame {
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
        
-    }
-}//
+    }//fin del main
+}//fin de la clase

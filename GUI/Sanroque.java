@@ -33,11 +33,11 @@ public class Sanroque extends JPanel {
         add(PagoFacil);
         setBackground(nuevo);
 
-        detales();
+        detalles();
         eventos();
     }
 
-    public void detales() {
+    public void detalles() {
         Efectivo.setBounds(150, 300, 300, 50);
         Efectivo.setText("EFECTIVO");
         Efectivo.setFocusPainted(false);

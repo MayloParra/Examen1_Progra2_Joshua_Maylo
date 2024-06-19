@@ -50,7 +50,7 @@ public class AdminPanel extends JFrame {
     JPanel Datos = new JPanel();
     JPanel Tabla = new JPanel();
     JPanel Principal = new PanelConFondo("/Imagenes/Fondo3.jpg"); // Mantener la imagen de fondo
-
+    //Atributos de la clase
     public AdminPanel() {
         setSize(1000, 700);
         setLocationRelativeTo(null);
@@ -145,18 +145,18 @@ public class AdminPanel extends JFrame {
 
     public void cargarDatosDesdeBaseDeDatos() {
         try {
-            // 1. Establecer conexión
+            //Establecer conexión
             POO.Conexion objetoconexion = new POO.Conexion();
             Connection con;
             con = (Connection) objetoconexion.EstablecerConexion();
 
-            // 2. Ejecutar consulta SQL
+            //Ejecutar consulta SQL
             String consulta = "SELECT Cedula, nombre1, nombre2, apellido1, apellido2, Login, clave FROM usuarios";
             PreparedStatement ps;
             ps = (PreparedStatement) con.prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
 
-            // 3. Llenar el DefaultTableModel
+            //Llenar el DefaultTableModel
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
             modelo.setRowCount(0); // Limpiar el modelo para evitar duplicados
 
@@ -172,13 +172,13 @@ public class AdminPanel extends JFrame {
                 modelo.addRow(fila);
             }
 
-            // 4. Asignar el modelo a la JTable
+            //Asignar el modelo a la JTable
             tabla.setModel(modelo);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }// fin del método cargarDatosDesdeBaseDeDatos
 
     public void eventos() {
         Agregar.addActionListener(new ActionListener() {
@@ -342,7 +342,7 @@ public class AdminPanel extends JFrame {
         }catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar usuario" + e.toString());
         }
-    }//
+    }// fin del método ActualizarUsuario
 
     public void EliminarUsuario(JTextField TCedula) {
         
@@ -358,6 +358,6 @@ public class AdminPanel extends JFrame {
         }catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar usuario" + e.toString());
         }
-    }
+    }// fin del método EliminarUsuario
 
 }// fin de la clase AdminPanel

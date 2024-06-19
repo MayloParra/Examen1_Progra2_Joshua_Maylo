@@ -31,8 +31,9 @@ public class CLogin {
             
             if (con != null) {
                 String consultaAdmin = "SELECT * FROM registrousuarios WHERE idUsuarios = ? AND contraseñas = ?";
+                //Consulta para el AdminJefe
                 ps = con.prepareStatement(consultaAdmin);
-
+                
                 String user = Usuario.getText();
                 String contra = new String(contraseña.getPassword());
 
@@ -84,5 +85,5 @@ public class CLogin {
                 JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e.getMessage());
             }
         }
-    }
+    }//fin de Validacion
 }
