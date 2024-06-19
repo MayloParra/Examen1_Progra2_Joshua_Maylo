@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileInputStream;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,14 +23,19 @@ import com.mysql.jdbc.PreparedStatement;
 
 public class AdminPanel extends JFrame {
 
+    // Definición de colores y columnas de la tabla
     Color colorPanel = new Color(234, 235, 237);
     String[] nombresColumnas = {"Cedula", "nombre1", "Nombre2", "apellido1", "apellido2", "login", "contraseña"};
-    DefaultTableModel modelo = new DefaultTableModel(nombresColumnas, 0);
-    JTable tabla = new JTable(modelo);
+    DefaultTableModel modelo = new DefaultTableModel(nombresColumnas, 0); // Modelo de la tabla
+    JTable tabla = new JTable(modelo); // Tabla que muestra los usuarios
+
+    // Botones de la interfaz
     JButton Agregar = new JButton("Agregar");
     JButton Actualizar = new JButton("Actualizar");
     JButton Eliminar = new JButton("Eliminar");
     JButton Regresar = new JButton("Regresar");
+
+    // Etiquetas y campos de texto
     JLabel Login = new JLabel("Usuario: ");
     JLabel Contraseña = new JLabel("Contraseña: ");
     JLabel Nombre1 = new JLabel("Primer nombre: ");
@@ -47,22 +50,26 @@ public class AdminPanel extends JFrame {
     JTextField TApellido1 = new JTextField();
     JTextField TApellido2 = new JTextField();
     JTextField TCedula = new JTextField();
+
+    // Paneles para organizar la interfaz
     JPanel Datos = new JPanel();
     JPanel Tabla = new JPanel();
-    JPanel Principal = new PanelConFondo("/Imagenes/Fondo3.jpg"); // Mantener la imagen de fondo
-    //Atributos de la clase
-    public AdminPanel() {
-        setSize(1000, 700);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+    JPanel Principal = new PanelConFondo("/Imagenes/Fondo3.jpg"); // Mantiene la imagen de fondo
 
-        add(Principal);
-        Detalles();
-        eventos();
-        cargarDatosDesdeBaseDeDatos();
+    // Constructor de la clase
+    public AdminPanel() {
+        setSize(1000, 700); // Tamaño de la ventana
+        setLocationRelativeTo(null); // Centrar la ventana
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Comportamiento al cerrar
+        setResizable(false); // No permitir redimensionar la ventana
+
+        add(Principal); // Agregar el panel principal a la ventana
+        Detalles(); // Configurar detalles de la interfaz
+        eventos(); // Configurar eventos de los componentes
+        cargarDatosDesdeBaseDeDatos(); // Cargar datos de la base de datos
     } // Fin del constructor
 
+    // Método para configurar los detalles de la interfaz
     public void Detalles() {
         Datos.setLayout(null);
         Tabla.setLayout(null);
@@ -74,6 +81,7 @@ public class AdminPanel extends JFrame {
         Datos.setBounds(15, 0, 960, 330);
         Datos.setBackground(colorPanel);
 
+        // Agregar componentes al panel de datos
         Datos.add(Cedula);
         Datos.add(TCedula);
         Datos.add(Nombre1);
@@ -88,18 +96,19 @@ public class AdminPanel extends JFrame {
         Datos.add(TUsuario);
         Datos.add(Contraseña);
         Datos.add(TContraseña);
-
         Datos.add(Agregar);
         Datos.add(Actualizar);
         Datos.add(Eliminar);
         Datos.add(Regresar);
 
+        // Configuración del panel de la tabla
         JScrollPane scrollPane = new JScrollPane(tabla);
         Tabla.add(scrollPane);
         Tabla.setBounds(15, 360, 960, 300);
         Tabla.setBackground(colorPanel);
         scrollPane.setBounds(0, 0, 960, 250);
 
+        // Posicionamiento y configuración de los campos y etiquetas
         Cedula.setBounds(10, 10, 100, 30);
         TCedula.setBounds(140, 10, 200, 30);
         TCedula.setBorder(new Borde(15));
@@ -129,6 +138,7 @@ public class AdminPanel extends JFrame {
         TContraseña.setBorder(new Borde(15));
         TContraseña.setOpaque(false);
 
+        // Configuración de los botones
         Agregar.setBounds(400, 290, 100, 30);
         Agregar.setContentAreaFilled(false);
         Agregar.setBackground(Color.white);
@@ -138,25 +148,24 @@ public class AdminPanel extends JFrame {
         Eliminar.setBounds(630, 290, 100, 30);
         Eliminar.setContentAreaFilled(false);
         Eliminar.setBackground(Color.white);
-        Regresar.setBounds(745, 290, 100, 30); 
+        Regresar.setBounds(745, 290, 100, 30);
         Regresar.setContentAreaFilled(false);
         Regresar.setBackground(Color.white);
-    } // fin del método Detalles
+    } // Fin del método Detalles
 
+    // Método para cargar datos desde la base de datos
     public void cargarDatosDesdeBaseDeDatos() {
         try {
-            //Establecer conexión
+            // Establecer conexión
             POO.Conexion objetoconexion = new POO.Conexion();
-            Connection con;
-            con = (Connection) objetoconexion.EstablecerConexion();
+            Connection con = (Connection) objetoconexion.EstablecerConexion();
 
-            //Ejecutar consulta SQL
+            // Ejecutar consulta SQL
             String consulta = "SELECT Cedula, nombre1, nombre2, apellido1, apellido2, Login, clave FROM usuarios";
-            PreparedStatement ps;
-            ps = (PreparedStatement) con.prepareStatement(consulta);
+            PreparedStatement ps = (PreparedStatement) con.prepareStatement(consulta);
             ResultSet rs = ps.executeQuery();
 
-            //Llenar el DefaultTableModel
+            // Llenar el DefaultTableModel
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
             modelo.setRowCount(0); // Limpiar el modelo para evitar duplicados
 
@@ -170,21 +179,22 @@ public class AdminPanel extends JFrame {
                 fila[5] = rs.getString("Login");
                 fila[6] = rs.getString("clave");
                 modelo.addRow(fila);
-            }
+            } // Fin del while
 
-            //Asignar el modelo a la JTable
+            // Asignar el modelo a la JTable
             tabla.setModel(modelo);
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }// fin del método cargarDatosDesdeBaseDeDatos
+        } // Fin del catch
+    } // Fin del método cargarDatosDesdeBaseDeDatos
 
+    // Método para configurar los eventos de los componentes
     public void eventos() {
+        // Evento para agregar usuario
         Agregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 AgregarUsuario(TCedula, TNombre1, TNombre2, TApellido1, TApellido2, TUsuario, TContraseña);
 
                 String[] datos = {
@@ -198,18 +208,17 @@ public class AdminPanel extends JFrame {
                 };
                 modelo.addRow(datos);
                 clearTextFields();
-            }
+            } // Fin del actionPerformed
         });
 
+        // Evento para actualizar usuario
         Actualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ActualizarUsuario(TCedula, TNombre1, TNombre2, TApellido1, TApellido2, TUsuario, TContraseña);
-
                 int selectedRow = tabla.getSelectedRow();
 
-                ActualizarUsuario(TCedula, TNombre1, TNombre2, TApellido1, TApellido2, TUsuario, TContraseña);
                 if (selectedRow >= 0) {
+                    ActualizarUsuario(TCedula, TNombre1, TNombre2, TApellido1, TApellido2, TUsuario, TContraseña);
                     modelo.setValueAt(TCedula.getText(), selectedRow, 0);
                     modelo.setValueAt(TNombre1.getText(), selectedRow, 1);
                     modelo.setValueAt(TNombre2.getText(), selectedRow, 2);
@@ -218,26 +227,25 @@ public class AdminPanel extends JFrame {
                     modelo.setValueAt(TUsuario.getText(), selectedRow, 5);
                     modelo.setValueAt(TContraseña.getText(), selectedRow, 6);
                     clearTextFields();
-                }
-            }
+                } // Fin del if
+            } // Fin del actionPerformed
         });
 
+        // Evento para eliminar usuario
         Eliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-
-                EliminarUsuario(TCedula);
-
-
                 int selectedRow = tabla.getSelectedRow();
+
                 if (selectedRow >= 0) {
+                    EliminarUsuario(TCedula);
                     modelo.removeRow(selectedRow);
                     clearTextFields();
-                }
+                } // Fin del if
             }
         });
 
+        // Evento para regresar al login
         Regresar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -246,9 +254,10 @@ public class AdminPanel extends JFrame {
                 ventana.setBounds(0, 0, 800, 600);
                 ventana.setLocationRelativeTo(null);
                 ventana.setVisible(true);
-            }
+            } // Fin del actionPerformed
         });
 
+        // Evento para seleccionar una fila de la tabla
         tabla.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -261,12 +270,12 @@ public class AdminPanel extends JFrame {
                     TApellido2.setText(modelo.getValueAt(selectedRow, 4).toString());
                     TUsuario.setText(modelo.getValueAt(selectedRow, 5).toString());
                     TContraseña.setText(modelo.getValueAt(selectedRow, 6).toString());
-                }
+                } // Fin del if
             }
         });
+    } // Fin del método eventos
 
-    } // fin del método eventos
-
+    // Método para limpiar los campos de texto
     private void clearTextFields() {
         TUsuario.setText("");
         TContraseña.setText("");
@@ -275,15 +284,15 @@ public class AdminPanel extends JFrame {
         TApellido1.setText("");
         TApellido2.setText("");
         TCedula.setText("");
-    } // fin del método clearTextFields
+    } // Fin del método clearTextFields
 
+    // Método para agregar un usuario
     public void AgregarUsuario(JTextField TCedula, JTextField TNombre1, JTextField TNombre2, JTextField TApellido1, JTextField TApellido2, JTextField TUsuario, JTextField TContraseña) {
-        
         POO.Conexion objetoconexion = new POO.Conexion();
         String consulta = "insert into usuarios (cedula, nombre1, nombre2, apellido1, apellido2, login, clave) values(?,?,?,?,?,?,?);";
 
         try {
-
+            // Llamada al procedimiento almacenado
             CallableStatement call = (CallableStatement) objetoconexion.EstablecerConexion().prepareCall(consulta);
             call.setString(1, TCedula.getText());
             call.setString(2, TNombre1.getText());
@@ -296,37 +305,17 @@ public class AdminPanel extends JFrame {
 
             JOptionPane.showMessageDialog(null, "Usuario agregado");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al agregar usuario" + e.toString());
+            JOptionPane.showMessageDialog(null, "Error al agregar usuario: " + e.toString());
         }
-}// fin del método AgregarUsuario
+    } // Fin del método AgregarUsuario
 
-
-
-    public void Seleccionar( JTable tabla, JTextField TCedula, JTextField TNombre1, JTextField TNombre2, JTextField TApellido1, JTextField TApellido2, JTextField TUsuario, JTextField TContraseña) {
-
-        int selectedRow = tabla.getSelectedRow();
-
-        if (selectedRow>=0){
-            TCedula.setText(tabla.getValueAt(selectedRow, 0).toString());
-            TNombre1.setText(tabla.getValueAt(selectedRow, 1).toString());
-            TNombre2.setText(tabla.getValueAt(selectedRow, 2).toString());
-            TApellido1.setText(tabla.getValueAt(selectedRow, 3).toString());
-            TApellido2.setText(tabla.getValueAt(selectedRow, 4).toString());
-            TUsuario.setText(tabla.getValueAt(selectedRow, 5).toString());
-            TContraseña.setText(tabla.getValueAt(selectedRow, 6).toString());
-
-        }
-    }// fin del método Seleccionar
-
-
-
+    // Método para actualizar un usuario
     public void ActualizarUsuario(JTextField TCedula, JTextField TNombre1, JTextField TNombre2, JTextField TApellido1, JTextField TApellido2, JTextField TUsuario, JTextField TContraseña) {
-        
         POO.Conexion objetoconexion = new POO.Conexion();
         String consulta = "UPDATE usuarios SET cedula=?, nombre1=?, nombre2=?, apellido1=?, apellido2=?, login=?, clave=? WHERE cedula=?;";
 
         try {
-
+            // Llamada al procedimiento almacenado
             CallableStatement call = (CallableStatement) objetoconexion.EstablecerConexion().prepareCall(consulta);
             call.setString(1, TCedula.getText());
             call.setString(2, TNombre1.getText());
@@ -339,25 +328,24 @@ public class AdminPanel extends JFrame {
             call.execute();
 
             JOptionPane.showMessageDialog(null, "Usuario actualizado");
-        }catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar usuario" + e.toString());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar usuario: " + e.toString());
         }
-    }// fin del método ActualizarUsuario
+    } // Fin del método ActualizarUsuario
 
+    // Método para eliminar un usuario
     public void EliminarUsuario(JTextField TCedula) {
-        
         POO.Conexion objetoconexion = new POO.Conexion();
         String consulta = "DELETE FROM usuarios WHERE cedula=?;";
 
         try {
-            CallableStatement cs = (CallableStatement) objetoconexion.EstablecerConexion().prepareCall(consulta); 
-
+            CallableStatement cs = (CallableStatement) objetoconexion.EstablecerConexion().prepareCall(consulta);
             cs.setString(1, TCedula.getText());
             cs.execute();
             JOptionPane.showMessageDialog(null, "Usuario eliminado");
-        }catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar usuario" + e.toString());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar usuario: " + e.toString());
         }
-    }// fin del método EliminarUsuario
+    } // Fin del método EliminarUsuario
 
-}// fin de la clase AdminPanel
+} // Fin de la clase AdminPanel

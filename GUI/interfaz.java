@@ -10,7 +10,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import POO.Arreglo;
+
 
 public class interfaz extends JFrame {
     JPanel principal;
@@ -19,7 +19,7 @@ public class interfaz extends JFrame {
     Color Boton = new Color(15, 60, 157);
     JLabel Titulo;
     JButton Regresar = new JButton("Regresar");
-    static Arreglo[] arreglo = new Arreglo[1];
+   
     private String nombreUsuario;
 
     // Creación de atributos y objetos

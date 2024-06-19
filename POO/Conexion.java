@@ -16,10 +16,11 @@ public class Conexion {
 
     String cadena = "jdbc:mysql://" + IP + ":" + Puerto + "/" + BD;
 
+    //Metodo para establecer la conexion
     public Connection EstablecerConexion(){
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            conectar = DriverManager.getConnection(cadena, Usuario, Contraseña);
+            Class.forName("com.mysql.jdbc.Driver");//Cargar el driver de mysql
+            conectar = DriverManager.getConnection(cadena, Usuario, Contraseña);//Conectar con la base de datos
             // JOptionPane.showMessageDialog(null, "Se conecto correctamente a la base de datos");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error de SQL al conectar con la base de datos: " + e.toString());

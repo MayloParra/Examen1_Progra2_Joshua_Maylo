@@ -17,76 +17,81 @@ import java.sql.SQLException;
 import POO.Conexion;
 
 public class Reporte extends JPanel {
-    Color nuevo = new Color(21, 85, 223);
-    Color Boton = new Color(15, 60, 157);
-    JLabel Titulo;
-    JTextArea Dato;
-    JButton Salir;
-    private String nombreUsuario;
+    // Definición de colores y componentes de la interfaz
+    Color nuevo = new Color(21, 85, 223); // Color de fondo del panel
+    Color Boton = new Color(15, 60, 157); // Color de fondo de los botones
+    JLabel Titulo; // Etiqueta para el título del reporte
+    JTextArea Dato; // Área de texto para mostrar los datos del reporte
+    JButton Salir; // Botón para salir del sistema
+    private String nombreUsuario; // Nombre del usuario actual
 
-    // declaración de atributos
+    // Constructor de la clase
     public Reporte(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-        Titulo = new JLabel();
-        Dato = new JTextArea();
-        Salir = new JButton();
-        // Inicialización de atributos
+        this.nombreUsuario = nombreUsuario; // Asignar el nombre de usuario
+        Titulo = new JLabel(); // Inicializar la etiqueta del título
+        Dato = new JTextArea(); // Inicializar el área de texto para los datos
+        Salir = new JButton(); // Inicializar el botón de salir
 
-        setSize(1000, 700);
-        setLayout(null);
-        setBackground(nuevo);
-        add(Titulo);
-        add(Dato);
-        add(Salir);
-        // detalles del JPanel
+        setSize(1000, 700); // Tamaño del panel
+        setLayout(null); // No usar layout manager para posicionar componentes manualmente
+        setBackground(nuevo); // Establecer el color de fondo del panel
+        add(Titulo); // Agregar la etiqueta del título al panel
+        add(Dato); // Agregar el área de texto al panel
+        add(Salir); // Agregar el botón de salir al panel
 
-        detalles();
-        eventos();
-        cargarDatosDesdeBaseDeDatos();
-        // llamado de métodos
-    }
+        detalles(); // Configurar detalles de los componentes
+        eventos(); // Configurar eventos de los componentes
+        cargarDatosDesdeBaseDeDatos(); // Cargar los datos del reporte desde la base de datos
+    } // Fin del constructor
 
+    // Método para configurar los detalles de los componentes
     public void detalles() {
-        Titulo.setBounds(380, 10, 600, 50);
-        Titulo.setText("Reporte Final del día");
-        Titulo.setFont(new Font("Arial", Font.PLAIN, 25)); // este método sirve para poner fuente y tamaño de letra
-        Titulo.setForeground(Color.WHITE);
-        Dato.setBounds(10, 100, 970, 200);
-        Dato.setEditable(false);
-        Dato.setBackground(Boton);
-        Dato.setForeground(Color.WHITE);
-        Salir.setBounds(400, 400, 200, 70);
-        Salir.setText("Salir del sistema");
-        Salir.setFocusPainted(false);
-        Salir.setBorderPainted(false);
-        Salir.setBackground(Boton);
-        Salir.setForeground(Color.WHITE);
-    }// Este método sirve para asignar detalles a los botones o cualquier objeto swing
+        Titulo.setBounds(380, 10, 600, 50); // Posición y tamaño del título
+        Titulo.setText("Reporte Final del día"); // Texto del título
+        Titulo.setFont(new Font("Arial", Font.PLAIN, 25)); // Fuente y tamaño del texto del título
+        Titulo.setForeground(Color.WHITE); // Color del texto del título
 
+        Dato.setBounds(10, 100, 970, 200); // Posición y tamaño del área de texto
+        Dato.setEditable(false); // Hacer que el área de texto no sea editable
+        Dato.setBackground(Boton); // Establecer el color de fondo del área de texto
+        Dato.setForeground(Color.WHITE); // Establecer el color del texto del área de texto
+
+        Salir.setBounds(400, 400, 200, 70); // Posición y tamaño del botón de salir
+        Salir.setText("Salir del sistema"); // Texto del botón de salir
+        Salir.setFocusPainted(false); // Quitar el enfoque pintado del botón
+        Salir.setBorderPainted(false); // Quitar el borde pintado del botón
+        Salir.setBackground(Boton); // Establecer el color de fondo del botón
+        Salir.setForeground(Color.WHITE); // Establecer el color del texto del botón
+    } // Fin del método detalles
+
+    // Método para configurar los eventos de los componentes
     public void eventos() {
+        // Evento del botón Salir
         Salir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                System.exit(0); // Cerrar la aplicación
             }
-        }); // Esta acción es del botón Salir del sistema
+        });
+    } // Fin del método eventos
 
-    }// Método para dar funcionalidad a los botones
-
+    // Método para cargar los datos del reporte desde la base de datos
     public void cargarDatosDesdeBaseDeDatos() {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        StringBuilder reporte = new StringBuilder();
+        Connection con = null; // Conexión a la base de datos
+        PreparedStatement ps = null; // PreparedStatement para las consultas SQL
+        ResultSet rs = null; // ResultSet para almacenar los resultados de la consulta
+        StringBuilder reporte = new StringBuilder(); // StringBuilder para construir el reporte
 
         try {
-            Conexion objetoconexion = new Conexion();
-            con = objetoconexion.EstablecerConexion();
+            Conexion objetoconexion = new Conexion(); // Crear una instancia de la clase Conexion
+            con = objetoconexion.EstablecerConexion(); // Establecer la conexión con la base de datos
 
+            // Consulta SQL para obtener los datos del reporte
             String consulta = "SELECT UsuarioChofer, monto_efectivo, monto_tarjeta, total FROM totales WHERE UsuarioChofer = ?";
             ps = con.prepareStatement(consulta);
-            ps.setString(1, nombreUsuario);
-            rs = ps.executeQuery();
+            ps.setString(1, nombreUsuario); // Establecer el parámetro de la consulta
+            rs = ps.executeQuery(); // Ejecutar la consulta
 
+            // Construir el reporte a partir de los resultados de la consulta
             if (rs.next()) {
                 String chofer = rs.getString("UsuarioChofer");
                 double totalEfectivo = rs.getDouble("monto_efectivo");
@@ -103,15 +108,16 @@ public class Reporte extends JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al cargar datos de la base de datos: " + e.toString());
         } finally {
+            // Cerrar los recursos en el bloque finally
             try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (con != null) con.close();
+                if (rs != null) rs.close(); // Cerrar ResultSet
+                if (ps != null) ps.close(); // Cerrar PreparedStatement
+                if (con != null) con.close(); // Cerrar Connection
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e.toString());
             }
         }
 
-        Dato.setText(reporte.toString());
-    }
-}// Clase Reporte
+        Dato.setText(reporte.toString()); // Establecer el texto del área de texto con el reporte
+    } // Fin del método cargarDatosDesdeBaseDeDatos
+} // Fin de la clase Reporte
