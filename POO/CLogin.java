@@ -13,6 +13,13 @@ import GUI.interfaz;
 
 public class CLogin {
 
+    private interfaz inter;
+    private static String choferCedula;
+
+    public static String getChoferCedula() {
+        return choferCedula;
+    }
+
     public void Validacion(JTextField Usuario, JPasswordField contraseña) {
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -54,8 +61,9 @@ public class CLogin {
                 rs = ps.executeQuery();
 
                 if (rs.next()) {
+                    String nombreUsuario = rs.getString("login"); // Obtén el nombre de usuario desde el ResultSet
                     JOptionPane.showMessageDialog(null, "Bienvenido al sistema conductor");
-                    interfaz ventana = new interfaz();
+                    interfaz ventana = new interfaz(nombreUsuario);
                     ventana.setVisible(true);
                     ventana.setLocationRelativeTo(null);
                 } else {

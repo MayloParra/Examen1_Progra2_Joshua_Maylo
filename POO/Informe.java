@@ -27,5 +27,4 @@ public void setTotalDia() {
     TotalDia = Efectivo+PagoRapido;;
 }
 
-
 }

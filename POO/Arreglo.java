@@ -32,3 +32,4 @@ public String getFecha(){
     return reporte.getFecha();
 }//este método sirve para obtener la fecha
 }//fin de la clase
+

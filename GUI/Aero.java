@@ -9,91 +9,73 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import POO.Arreglo;
-
-
+import POO.Pagos;
 
 public class Aero extends JPanel {
-    JButton Efectivo,PagoFacil;
-    Color nuevo=new Color(21, 85, 223);
-    Color Boton=new Color(15, 60, 157);
-    //Declaración de atributos
-    
-    public Aero(){
-        Efectivo=new JButton();
-        PagoFacil=new JButton();
-        //inicialización
-    
-    
-            setSize(1000,700);
-            setLayout(null);
-            add(Efectivo);
-            add(PagoFacil);
-            setBackground(nuevo);
 
-            //detalles del JPanel
-    
-            detales();
-            eventos();
-            //Llamado de métodos
+    private interfaz inter;
+    JButton Efectivo, PagoFacil;
+    Color nuevo = new Color(21, 85, 223);
+    Color Boton = new Color(15, 60, 157);
+    private Pagos pagos;
+    private String nombreUsuario;
+
+    public Aero(String nombreUsuario, interfaz inter) {
+        this.inter = inter;
+        this.nombreUsuario = nombreUsuario;
+        pagos = new Pagos(nombreUsuario);
+        Efectivo = new JButton();
+        PagoFacil = new JButton();
+
+        setSize(1000, 700);
+        setLayout(null);
+        add(Efectivo);
+        add(PagoFacil);
+        setBackground(nuevo);
+
+        detales();
+        eventos();
+    }// constructor
+
+    public void detales() {
+        Efectivo.setBounds(150, 300, 300, 50);
+        Efectivo.setText("EFECTIVO");
+        Efectivo.setFocusPainted(false);
+        Efectivo.setBorderPainted(false);
+        Efectivo.setBackground(Boton);
+        Efectivo.setForeground(Color.WHITE);
+
+        PagoFacil.setBounds(550, 300, 300, 50);
+        PagoFacil.setText("PAGO FÁCIL");
+        PagoFacil.setFocusPainted(false);
+        PagoFacil.setBorderPainted(false);
+        PagoFacil.setBackground(Boton);
+        PagoFacil.setForeground(Color.WHITE);
     }
 
-    public void detales(){
-    Efectivo.setBounds(150, 300, 300, 50);
-    Efectivo.setText("EFECTIVO");
-    Efectivo.setFocusPainted(false);
-    Efectivo.setBorderPainted(false);
-    Efectivo.setBackground(Boton);
-    Efectivo.setForeground(Color.WHITE);
-
-    PagoFacil.setBounds(550, 300, 300, 50);
-    PagoFacil.setText("PAGO FÁCIL");
-    PagoFacil.setFocusPainted(false);
-    PagoFacil.setBorderPainted(false);
-    PagoFacil.setBackground(Boton);
-    PagoFacil.setForeground(Color.WHITE);
-
-    }//Este método sirve para dar detalle a botones y etc
-    public void NuevoPanel(JPanel panel){
-
-        panel.setSize(1000,700);
+    public void NuevoPanel(JPanel panel) {
+        panel.setSize(1000, 700);
         panel.setLocation(0, 0);
         removeAll();
-        add(panel,BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
         repaint();
         revalidate();
-        
-        
-        
-    }//método para intercambiar paneles
-    public void eventos(){
+    }
+
+    public void eventos() {
         Efectivo.addActionListener(new ActionListener() {
-            
             public void actionPerformed(ActionEvent e) {
-                              if (interfaz.arreglo[0] != null) {
-                    interfaz.arreglo[0].AgregarEfectivo(500);
-                } else {
-                    
-                    interfaz.arreglo[0] = new Arreglo();
-                   interfaz.arreglo[0].AgregarEfectivo(500);
-                }
-              JOptionPane.showMessageDialog(null, "El pasaje es de 500 colones"+"\n"+"Por favor pagar al chofer");
-                NuevoPanel(new interfaz().principal);
+                pagos.realizarPago(500, 0); // Pago en efectivo
+                JOptionPane.showMessageDialog(null, "El pasaje es de 500 colones\nPor favor pagar al chofer");
+                inter.NuevoPanel(new interfaz(inter.getNombreUsuario()).principal);
             }
         });
 
         PagoFacil.addActionListener(new ActionListener() {
-            
             public void actionPerformed(ActionEvent e) {
-                if (interfaz.arreglo[0] != null) {
-                    interfaz.arreglo[0].AgregarPagoFacil(500);
-                } else {
-                    
-                    interfaz.arreglo[0] = new Arreglo();
-                   interfaz.arreglo[0].AgregarPagoFacil(500);
-                }
-              JOptionPane.showMessageDialog(null, "El Pago se ha realizado correctamente");
-                NuevoPanel(new interfaz().principal);
+                pagos.realizarPago(0, 500); // Pago con tarjeta
+                JOptionPane.showMessageDialog(null, "El Pago se ha realizado correctamente");
+                inter.NuevoPanel(new interfaz(inter.getNombreUsuario()).principal);
             }
         });
     }
