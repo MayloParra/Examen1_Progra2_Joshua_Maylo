@@ -114,4 +114,4 @@ public class Reporte extends JPanel {
 
         Dato.setText(reporte.toString());
     }
-}
+}// Clase Reporte
